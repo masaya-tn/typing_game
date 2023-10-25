@@ -2,20 +2,29 @@ import React, { useState } from 'react';
 
 export const Typing = () => {
     const [inputText, setInputText] = useState('')
+    const theme = 'hello'
+    const [counter, setCounter] = useState(0)
     
     const keyDownHandler = (e) => {
         const key = e.code;
-        if (key.substr(-1) === 'A') {
-            console.log('Success!')
+        console.log(key.substr(-1).toLowerCase())
+        console.log(theme.substring(counter, counter+1))
+        if (key.substr(-1).toLowerCase() === theme.substring(counter, counter+1)) {
+            console.log('ok')
+            setCounter(counter+1)
         } 
-        console.log(key.substr(-1))
+        // console.log(key.substr(-1))
     } 
 
     return (
         <div
             onKeyDown={keyDownHandler}
         >
-            <div>hello world</div>
+            <div>hello</div>
+            <div>{
+                counter &&
+                theme.substring(0, counter)}
+            </div>
             <input 
                 type="text"
                 value={inputText}
