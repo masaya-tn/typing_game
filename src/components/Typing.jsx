@@ -1,34 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const Typing = () => {
-    const [inputText, setInputText] = useState('')
-    const theme = 'hello'
+    const [theme, setTheme] = useState('')
     const [counter, setCounter] = useState(0)
-    
+
+    useEffect(() => {
+        makeTheme()
+    })
+
     const keyDownHandler = (e) => {
         const key = e.code;
-        console.log(key.substr(-1).toLowerCase())
-        console.log(theme.substring(counter, counter+1))
-        if (key.substr(-1).toLowerCase() === theme.substring(counter, counter+1)) {
-            console.log('ok')
+        if (key.substr(-1).toLowerCase() !== theme.substring(counter, counter+1)) return;
+        if (counter+1 >= theme.length) {
+            complete();
+        } else {
             setCounter(counter+1)
-        } 
-        // console.log(key.substr(-1))
+        }
     } 
+
+    const complete = () => {
+        setTheme('')
+        setCounter(0)
+    }
+
+    const makeTheme = () => {
+        if (theme !== '') return;
+        const themes = [
+            "hello",
+            "monday",
+            "calendar",
+            "practice",
+            "friend",
+            "performance",
+            "exercize",
+            "january",
+            "kubenetes",
+            "pokemon"
+        ]
+        let rand = Math.floor(Math.random()*10)
+        setTheme(themes[rand])
+    }
 
     return (
         <div
             onKeyDown={keyDownHandler}
         >
-            <div>hello</div>
+            <div>{theme && theme}</div>
             <div>{
                 counter &&
                 theme.substring(0, counter)}
             </div>
             <input 
                 type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+                value={''}
             />
         </div>
     );
