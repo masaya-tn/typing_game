@@ -3,12 +3,15 @@ import React, { useState, useEffect } from 'react';
 export const Typing = () => {
     const [theme, setTheme] = useState('')
     const [counter, setCounter] = useState(0)
+    const [second, setSecond] = useState(0)
+    const [onPlay, setOnPlay] = useState(false)
 
     useEffect(() => {
         makeTheme()
     })
 
     const keyDownHandler = (e) => {
+        if (onPlay !== true) return
         const key = e.code;
         if (key.substr(-1).toLowerCase() !== theme.substring(counter, counter+1)) return;
         if (counter+1 >= theme.length) {
@@ -17,6 +20,26 @@ export const Typing = () => {
             setCounter(counter+1)
         }
     } 
+
+    const startCounter = () => {
+        setOnPlay(true)
+        secondCounter()
+    }
+
+    const secondCounter = () => {
+        console.log(second)
+        console.log(theme)
+        if (second >= 60) {
+            setOnPlay(false) 
+            return
+        }
+        setSecond(second+1)
+        interval()
+    }
+
+    const interval = () => {
+        setTimeout(() => secondCounter(), 10000)
+    }
 
     const complete = () => {
         setTheme('')
@@ -54,6 +77,9 @@ export const Typing = () => {
                 type="text"
                 value={''}
             />
+            <button onClick={() => startCounter()}>
+                すたーと
+            </button>
         </div>
     );
 }
