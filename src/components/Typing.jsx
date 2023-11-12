@@ -5,9 +5,14 @@ export const Typing = () => {
     const [counter, setCounter] = useState(0)
     const [second, setSecond] = useState(0)
     const [onPlay, setOnPlay] = useState(false)
+    const [intervalId, setIntervalId] = useState()
 
     useEffect(() => {
         makeTheme()
+        if(second === 60) {
+            clearInterval(intervalId)
+            setOnPlay(false)
+        }
     })
 
     const keyDownHandler = (e) => {
@@ -23,22 +28,11 @@ export const Typing = () => {
 
     const startCounter = () => {
         setOnPlay(true)
-        secondCounter()
-    }
-
-    const secondCounter = () => {
-        console.log(second)
-        console.log(theme)
-        if (second >= 60) {
-            setOnPlay(false) 
-            return
-        }
-        setSecond(second+1)
-        interval()
-    }
-
-    const interval = () => {
-        setTimeout(() => secondCounter(), 10000)
+        setIntervalId(
+            setInterval(() => {
+                setSecond((second) => second + 1)
+            }, 1000)
+        )
     }
 
     const complete = () => {
@@ -68,6 +62,7 @@ export const Typing = () => {
         <div
             onKeyDown={keyDownHandler}
         >
+            <div>{second}</div>
             <div>{theme && theme}</div>
             <div>{
                 counter &&
