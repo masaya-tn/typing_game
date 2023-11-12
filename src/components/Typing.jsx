@@ -9,11 +9,14 @@ export const Typing = () => {
 
     useEffect(() => {
         makeTheme()
+    }, [counter])
+
+    useEffect(() => {
         if(second === 60) {
             clearInterval(intervalId)
             setOnPlay(false)
         }
-    })
+    }, [second])
 
     const keyDownHandler = (e) => {
         if (onPlay !== true) return
