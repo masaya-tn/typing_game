@@ -6,6 +6,7 @@ export const Typing = () => {
     const [second, setSecond] = useState(0)
     const [onPlay, setOnPlay] = useState(false)
     const [intervalId, setIntervalId] = useState()
+    const [success, setSuccess] = useState(0)
 
     useEffect(() => {
         makeTheme()
@@ -22,6 +23,7 @@ export const Typing = () => {
         if (onPlay !== true) return
         const key = e.code;
         if (key.substr(-1).toLowerCase() !== theme.substring(counter, counter+1)) return;
+        setSuccess(success+1)
         if (counter+1 >= theme.length) {
             complete();
         } else {
@@ -65,6 +67,9 @@ export const Typing = () => {
         <div
             onKeyDown={keyDownHandler}
         >
+            {second === 60 &&
+                <div>タイピング成功数{success}</div>
+            }
             <div>{second}</div>
             <div>{theme && theme}</div>
             <div>{
